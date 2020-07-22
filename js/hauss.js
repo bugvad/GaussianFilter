@@ -1,15 +1,38 @@
-var canvas_in = document.getElementById("canvas_in"); //присвоение элемента переменной по ID
-var canvas_out = document.getElementById("canvas_out"); //
+// var canvas_in = document.getElementById("canvas_in"); //присвоение элемента переменной по ID
+// var canvas_out = document.getElementById("canvas_out"); //
+
+// alert("Unable to initialize WebGL. Your browser or machine may not support it.");
 
 var img = new Image(); //создает новый экземпляр HTMLImageElement
+
+// If you are using Safari, make sure the image is hosted under the same domain, otherwise it will violate CORS
+img.src = "./images/1.png";
+
+// alert("it.");
+
 img.onload = function() { //как только картинка подгрузится запускается функция
     var w = this.width; //ссылка на переменную объекта img
     var h = this.height; //ссылка на переменную объекта img
+
+    var canvas_in = document.getElementById("canvas_in"); //присвоение элемента переменной по ID
+    var canvas_out = document.getElementById("canvas_out"); //
+
+     if (canvas_in === null) {
+         alert("111");
+     }
+
     canvas_in.width = canvas_out.width = w;
     canvas_in.height = canvas_out.height = h;
     
     var ctx = canvas_in.getContext("2d"); //возвращает контекст рисования на холсте
     var gl = canvas_out.getContext("experimental-webgl"); //будет создавать объект WebGLRenderingContext, представляющий трехмерный контекст. 
+    
+
+    // if (gl === null) {
+    //     alert("Unable to initialize WebGL. Your browser or machine may not support it.");
+    //     return;
+    // }
+
     gl.viewport(0, 0, w, h); //Устанавливает окно просмотра ? TODO -- разобраться
 
     var vtx_shader = gl.createShader(gl.VERTEX_SHADER); //creates a WebGLShader ?/The Vertex Shader is the programmable Shader stage in the rendering pipeline that handles the processing of individual vertices. 
@@ -99,6 +122,7 @@ img.onload = function() { //как только картинка подгруз�
     // The way texImage2D reading the texture will make the texture upside down as it
     // fill the bottom of the texture first
     // we need to pre-flip the texture
+    // То, как texImage2D читает текстуру, перевернет текстуру вверх дном, так как сначала она заполняет нижнюю часть текстуры, нам нужно предварительно перевернуть текстуру.
     ctx.translate(0, 400);
     ctx.scale(1, -1);
     ctx.drawImage(img, 0, 0, w, h);
@@ -113,6 +137,3 @@ img.onload = function() { //как только картинка подгруз�
     ctx.scale(1, -1);
     ctx.drawImage(img, 0, 0, w, h);
 };
-
-// If you are using Safari, make sure the image is hosted under the same domain, otherwise it will violate CORS
-img.src = "./images/1.png";
