@@ -5,12 +5,38 @@
 	<title></title>
 	<link rel="stylesheet" href="css/styles.css" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" type="text/css">
-	<script src="./js/hauss.js"></script>
+	<!-- <script src="./js/hauss.js"></script> -->
 </head>
-<body>
-	<canvas id="canvas_in" width="1276" height="478" />
-	<canvas id="canvas_out" width="1276" height="478" />
-<!-- 	<img id="canvas_in" src="./images/1.png">
-	<img id="canvas_out" src="./images/1.png"> -->
+<body class="vsc-initialized">
+
+	<div id="main">
+		<div id="lpanel">
+			<div>Интерфейс управления</div>
+			<div>Сила размытия</div>
+			<div>Сила размытия</div>
+			<button>Загрузить изображение</button>
+			<button>Сохранить изображение</button>
+		</div>
+		<div id="rpanel">
+			<canvas id="canvas"></canvas>
+			<div style="display:none;">
+				<img id="source"
+					 src="https://picsum.photos/180/120">
+			</div>
+		
+			<script>
+				const canvas = document.getElementById('canvas');
+				const ctx = canvas.getContext('2d');
+				const image = document.getElementById('source');
+		
+				image.addEventListener('load', e => {
+				  ctx.filter = 'blur(10px)';
+				  ctx.drawImage(image, 10, 10, 180, 120);
+				});
+			</script>
+		</div>
+	</div>
+        
+	
 </body>
 </html>
