@@ -1,13 +1,8 @@
-// WebGL - 2D Image
-// from https://webglfundamentals.org/webgl/webgl-2d-image.html
-
 "use strict";
 
 function main() {
   var image = new Image();
-  image.crossOrigin = "";
-  requestCORSIfNotSameOrigin(image, './images/1.png')
-  image.src = './images/1.png';
+  image.src = "./images/1.png";  // MUST BE SAME DOMAIN!!!
   image.onload = function() {
     render(image);
   };
@@ -133,15 +128,3 @@ function setRectangle(gl, x, y, width, height) {
 }
 
 main();
-
-
-// This is needed if the images are not on the same domain
-// NOTE: The server providing the images must give CORS permissions
-// in order to be able to use the image with WebGL. Most sites
-// do NOT give permission.
-// See: https://webglfundamentals.org/webgl/lessons/webgl-cors-permission.html
-function requestCORSIfNotSameOrigin(img, url) {
-  if ((new URL(url, window.location.href)).origin !== window.location.origin) {
-    img.crossOrigin = "";
-  }
-}
