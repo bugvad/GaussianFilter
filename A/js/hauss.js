@@ -6,8 +6,8 @@
 function main() {
   var image = new Image();
   image.crossOrigin = "";
-  requestCORSIfNotSameOrigin(image, '1.png')
-  image.src = '1.png';
+  requestCORSIfNotSameOrigin(image, './images/1.png')
+  image.src = './images/1.png';
   image.onload = function() {
     render(image);
   };
