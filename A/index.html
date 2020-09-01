@@ -7,7 +7,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" type="text/css">
 </head>
 <body>
-	dw
+	dwss
 	<canvas id="canvas"></canvas>
 	<!-- vertex shader -->
 	<script  id="vertex-shader-2d" type="x-shader/x-vertex">
@@ -39,7 +39,10 @@
 			vec4 sum = vec4(0.0); //результирующий цвет
 		
 			vec2 startDir = -0.5*direction*float(kSize-1); //вычисляем начальную точку размытия
-			for (float i=0; i<kSize; i++) //проходимся по всем коэффициентам
+			const float MAX_ITERATIONS = 100.0;
+
+			for (float i=0; i<=MAX_ITERATIONS; i++) //проходимся по всем коэффициентам
+				if (i >= kSize){break;}
 				sum += texture2D(texture, vTexCoord + startDir + direction*float(i)) * koeff[i]; //суммируем выборки 
 		
 			gl_FragColor = sum;
