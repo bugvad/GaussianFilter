@@ -4,55 +4,8 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<link rel="stylesheet" href="css/styles.css" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" type="text/css">
 </head>
 <body>ddd
-	<canvas id="canvas"></canvas>
-	<!-- vertex shader -->
-	<script  id="vertex-shader-2d" type="x-shader/x-vertex">
-
-		attribute vec2 vertex;
-		attribute vec2 texCoord;
-		
-		varying vec2 vTexCoord;
-		
-		void main() {
-			gl_Position = vec4(vertex, 0.0, 1.0);
-			vTexCoord = texCoord;
-		}
-	</script>
-	<!-- fragment shader -->
-	<script  id="fragment-shader-2d" type="x-shader/x-fragment">
-		precision mediump float;
-
-		const int MAX_KOEFF_SIZE = 32; //максимальный размер ядра (массива коэффициентов)
-		
-		uniform sampler2D texture; //размываемая текстура
-		uniform int kSize; //размер ядра
-		uniform float koeff[MAX_KOEFF_SIZE]; //коэффициенты
-		uniform vec2 direction; //направление размытия с учетом радиуса размытия и aspect ratio, например (0.003, 0.0) - горизонтальное и (0.0, 0.002) - вертикальное
-		
-		varying vec2 vTexCoord; //текстурные координаты текущего фрагмента
-		
-		void main() {
-			vec4 sum = vec4(0.0); //результирующий цвет
-
-			const int kSize = 100;
-		
-			vec2 startDir = -0.5*direction*float(kSize-1); //вычисляем начальную точку размытия
-			for (int i=0; i<kSize; i++) //проходимся по всем коэффициентам
-				sum += texture2D(texture, vTexCoord + startDir + direction*float(i)) * koeff[i]; //суммируем выборки 
-		
-			gl_FragColor = sum;
-		}
-	</script><!--
-	for most samples webgl-utils only provides shader compiling/linking and
-	canvas resizing because why clutter the examples with code that's the same in every sample.
-	See https://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html
-	and https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
-	for webgl-utils, m3, m4, and webgl-lessons-ui.
-	-->
-	<script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
-	<script src="./js/hauss.js"></script>
+	<canvas class="glslCanvas" data-fragment-url=“yourShader.frag" data-textures=“yourInputImage.png” width="500" height="500"></canvas>
 </body>
 </html>
