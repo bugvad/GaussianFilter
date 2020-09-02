@@ -5,7 +5,7 @@
 	<title></title>
 	<link rel="stylesheet" href="css/styles.css" type="text/css">
 </head>
-<body>dddq
+<body>dddq1
 	<canvas id="canvas"></canvas>
 	<!-- vertex shader -->
 	<script  id="vertex-shader-2d" type="x-shader/x-vertex">
@@ -21,6 +21,7 @@
 	</script>
 	<!-- fragment shader -->
 	<script  id="fragment-shader-2d" type="x-shader/x-fragment">
+		precision highp float;
 		const int MAX_KOEFF_SIZE = 32; //максимальный размер ядра (массива коэффициентов)
 
 		uniform sampler2D texture; //размываемая текстура
