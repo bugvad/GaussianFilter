@@ -9,43 +9,36 @@
 	<canvas id="canvas"></canvas>
 	<!-- vertex shader -->
 	<script  id="vertex-shader-2d" type="x-shader/x-vertex">
-	attribute vec2 a_position;
-	attribute vec2 a_texCoord;
-	
-	uniform vec2 u_resolution;
-	
-	varying vec2 v_texCoord;
-	
-	void main() {
-	   // convert the rectangle from pixels to 0.0 to 1.0
-	   vec2 zeroToOne = a_position / u_resolution;
-	
-	   // convert from 0->1 to 0->2
-	   vec2 zeroToTwo = zeroToOne * 2.0;
-	
-	   // convert from 0->2 to -1->+1 (clipspace)
-	   vec2 clipSpace = zeroToTwo - 1.0;
-	
-	   gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
-	
-	   // pass the texCoord to the fragment shader
-	   // The GPU will interpolate this value between points.
-	   v_texCoord = a_texCoord;
-	}
+		attribute vec2 vertex;
+		attribute vec2 texCoord;
+		
+		varying vec2 vTexCoord;
+		
+		void main() {
+			gl_Position = vec4(vertex, 0.0, 1.0);
+			vTexCoord = texCoord;
+		}
 	</script>
 	<!-- fragment shader -->
 	<script  id="fragment-shader-2d" type="x-shader/x-fragment">
-	precision mediump float;
-	
-	// our texture
-	uniform sampler2D u_image;
-	
-	// the texCoords passed in from the vertex shader.
-	varying vec2 v_texCoord;
-	
-	void main() {
-	   gl_FragColor = texture2D(u_image, v_texCoord);
-	}
+		const int MAX_KOEFF_SIZE = 32; //максимальный размер ядра (массива коэффициентов)
+
+		uniform sampler2D texture; //размываемая текстура
+		uniform int kSize; //размер ядра
+		uniform float koeff[MAX_KOEFF_SIZE]; //коэффициенты
+		uniform vec2 direction; //направление размытия с учетом радиуса размытия и aspect ratio, например (0.003, 0.0) - горизонтальное и (0.0, 0.002) - вертикальное
+		
+		varying vec2 vTexCoord; //текстурные координаты текущего фрагмента
+		
+		void main() {
+			vec4 sum = vec4(0.0); //результирующий цвет
+		
+			vec2 startDir = -0.5*direction*float(kSize-1); //вычисляем начальную точку размытия
+			for (int i=0; i<kSize; i++) //проходимся по всем коэффициентам
+				sum += texture2D(texture, vTexCoord + startDir + direction*float(i)) * koeff[i]; //суммируем выборки 
+		
+			gl_FragColor = sum;
+		}
 	</script><!--
 	for most samples webgl-utils only provides shader compiling/linking and
 	canvas resizing because why clutter the examples with code that's the same in every sample.
