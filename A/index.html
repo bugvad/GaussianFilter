@@ -35,7 +35,7 @@
 			vec4 sum = vec4(0.0); //результирующий цвет
 		
 			vec2 startDir = -0.5*direction*float(kSize-1); //вычисляем начальную точку размытия
-			for (int i=0; i<kSize; i++) //проходимся по всем коэффициентам
+			for (int i=0; i<32; i++) //проходимся по всем коэффициентам
 				sum += texture2D(texture, vTexCoord + startDir + direction*float(i)) * koeff[i]; //суммируем выборки 
 		
 			gl_FragColor = sum;
