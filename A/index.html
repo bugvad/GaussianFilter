@@ -5,7 +5,7 @@
 	<title></title>
 	<link rel="stylesheet" href="css/styles.css" type="text/css">
 </head>
-<body>dddq112
+<body>dddq113
 	<canvas id="canvas"></canvas>
 	<!-- vertex shader -->
 	<script  id="vertex-shader-2d" type="x-shader/x-vertex">
@@ -34,11 +34,9 @@
 		void main() {
 			vec4 sum = vec4(0.0); //результирующий цвет
 			const int MAX_ITERATIONS = 10000;
-
-			int i;
 		
 			vec2 startDir = -0.5*direction*float(kSize-1); //вычисляем начальную точку размытия
-			for (i=0; i<MAX_ITERATIONS; i++) //проходимся по всем коэффициентам
+			for (int i=0; i<MAX_ITERATIONS; i++) //проходимся по всем коэффициентам
 				if (i >= kSize){break;}
 				sum += texture2D(texture, vTexCoord + startDir + direction*float(i)) * koeff[i]; //суммируем выборки 
 		
