@@ -21,8 +21,8 @@ function render(image) {
   var program = webglUtils.createProgramFromScripts(gl, ["vertex-shader-2d", "fragment-shader-2d"]);
 
   // look up where the vertex data needs to go.
-  var positionLocation = gl.getAttribLocation(program, "a_position");
-  var texcoordLocation = gl.getAttribLocation(program, "a_texCoord");
+  var positionLocation = gl.getAttribLocation(program, "gl_Position");
+  var texcoordLocation = gl.getAttribLocation(program, "vTexCoord");
 
   // Create a buffer to put three 2d clip space points in
   var positionBuffer = gl.createBuffer();
